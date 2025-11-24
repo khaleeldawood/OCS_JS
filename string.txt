@@ -1,0 +1,44 @@
+let fullName = "   Khaleel Ayash   ";
+let clean = "Khaleel Ayash";
+
+console.log(fullName.trim());
+console.log(fullName.trimStart());
+console.log(fullName.trimEnd());
+
+console.log(clean.padStart(20, "*"));
+console.log(clean.padEnd(20, "*"));
+
+console.log(clean.charAt(0));
+console.log(clean.charCodeAt(0));
+
+console.log(clean.split(" "));
+
+console.log(clean.length);
+
+console.log(clean.slice(0, 7));
+console.log(clean.substring(0, 7));
+console.log(clean.substr(0, 7));
+
+console.log(clean.replace("Khaleel", "Khalil"));
+
+let phrase = "Khaleel loves JS. Khaleel codes every day.";
+console.log(phrase.replaceAll("Khaleel", "Khalil"));
+
+console.log(clean.toUpperCase());
+console.log(clean.toLowerCase());
+
+console.log(clean.concat(" is learning JavaScript"));
+
+console.log(clean.indexOf("a"));
+console.log(clean.lastIndexOf("a"));
+
+console.log(clean.search("Ayash"));
+
+console.log(clean.match(/a/g));
+
+console.log([...clean.matchAll(/a/g)]);
+
+console.log(clean.includes("Khaleel"));
+
+console.log(clean.startsWith("Kha"));
+console.log(clean.endsWith("Ayash"));

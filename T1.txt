@@ -1,0 +1,102 @@
+let month = prompt("Enter your birth month:");
+
+switch (parseInt(month)) {
+  case 1: console.log("January"); break;
+  case 2: console.log("February"); break;
+  case 3: console.log("March"); break;
+  case 4: console.log("April"); break;
+  case 5: console.log("May"); break;
+  case 6: console.log("June"); break;
+  case 7: console.log("July"); break;
+  case 8: console.log("August"); break;
+  case 9: console.log("September"); break;
+  case 10: console.log("October"); break;
+  case 11: console.log("November"); break;
+  case 12: console.log("December"); break;
+  default: console.log("Invalid month");
+}
+
+
+
+
+let num = 1;
+
+for (let row = 1; row <= 4; row++) {
+  let line = "";
+  for (let col = 1; col <= row; col++) {
+    line += num + " ";
+    num++;
+  }
+  console.log(line);
+}
+
+
+
+
+
+for (let i = 1; i <= 1000; i++) {
+  if (i % 13 === 0) {
+    console.log(i);
+  }
+}
+
+
+
+function multiplication2(a, b) {
+  let result = 0;
+  for (let i = 0; i < b; i++) {
+    result += a;
+  }
+  return result;
+}
+
+console.log(multiplication2(5,4));
+console.log(multiplication2(2,8));
+console.log(multiplication2(7,6));
+
+
+
+
+
+function triangleArea(base, height) {
+  return 0.5 * base * height;
+}
+
+console.log(triangleArea(10, 5));
+
+
+
+
+
+function isPandigital(num) {
+  let digits = new Set(num.toString());
+  return [..."0123456789"].every(d => digits.has(d));
+}
+
+console.log(isPandigital(98140723568910));
+console.log(isPandigital(90864523148909));
+
+
+
+
+
+let drink = prompt("Enter your favorite drink:");
+
+switch (drink.toLowerCase()) {
+  case "banana": console.log("The price of a banana drink is 20 dollars"); break;
+  case "orange": console.log("The price of an orange drink is 12 dollars"); break;
+  case "lemon": console.log("The price of a lemon drink is 10 dollars"); break;
+  case "mango": console.log("The price of a mango drink is 18 dollars"); break;
+  default: console.log("Drink not available");
+}
+
+
+
+
+
+function fullName(firstName, lastName) {
+  return firstName + " " + lastName;
+}
+
+console.log(fullName("Adam","McCallen"));
+console.log(fullName("Alex","Mercer"));
