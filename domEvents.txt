@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>DOM Events Tasks</title>
+    <style>
+        .task-section { border: 1px solid #ccc;
+        padding: 20px; margin: 20px 0; }
+        
+        #hoverBox { padding: 20px;
+        border: 1px solid black; width: 200px; transition: all 0.3s; }
+        
+        .short-pass { border: 2px solid red;
+        }
+        .error-msg { color: red; display: none; font-size: 0.8em;
+        }
+        
+        #animBox { width: 100px;
+        height: 100px; background-color: blue; }
+        
+        #editorBox { border: 1px solid #000;
+        min-height: 100px; width: 300px; padding: 5px; margin-top: 10px; }
+    </style>
+</head>
+<body>
+
+<div class="task-section">
+    <h3>Task 1: Hover Effect</h3>
+    <div id="hoverBox" onmouseover="startHover()" onmouseout="endHover()">Hello World!</div>
+</div>
+
+<div class="task-section">
+    <h3>Task 2: Country Flags</h3>
+    <select id="countrySelect" onchange="showFlag()">
+        <option value="">Select a Country</option>
+        <option value="norway">Norway</option>
+        <option value="jordan">Jordan</option>
+        <option value="usa">USA</option>
+    </select>
+    <div id="flagDisplay" style="margin-top: 10px; font-size: 50px;"></div>
+</div>
+
+<div class="task-section">
+    <h3>Task 3: 
+    Password Visual Check</h3>
+    <label>Password (min 6 chars):</label>
+    <input type="password" id="p1" oninput="checkPass()">
+    <span id="p1Error" class="error-msg">Too short</span>
+    <br><br>
+    <label>Repeat password:</label>
+    <input type="password" id="p2" oninput="checkPass()">
+    <span id="p2Error" class="error-msg">The two passwords don't match</span>
+</div>
+
+<div class="task-section">
+    <h3>Task 4: Show/Hide Content</h3>
+    <div style="border: 1px solid #333;
+    width: 300px;">
+        <div style="background: #eee; padding: 5px; display: flex;
+        justify-content: space-between;">
+            <strong>What is lorem ipsum?</strong>
+            <a href="#" onclick="toggleText(event)">Show</a>
+        </div>
+        <div id="loremText" style="display: none;
+        padding: 10px;">
+            It is a long established fact that a reader will be distracted by the readable content...
+        </div>
+    </div>
+</div>
+
+<div class="task-section">
+    <h3>Task 5: Text Editor</h3>
+    <div>
+        <select id="fontFamily" onchange="formatDoc('fontName', this.value)">
+            <option value="Arial">Arial</option>
+            <option value="Courier New">Courier New</option>
+         
+            <option value="Times New Roman">Times New Roman</option>
+        </select>
+        <select id="fontSize" onchange="formatDoc('fontSize', this.value)">
+            <option value="3">12pt</option> <option value="5">18pt</option>
+            <option value="7">24pt</option>
+        </select>
+        <label><input type="checkbox" onchange="formatDoc('italic')"> Italic</label>
+        <label><input type="checkbox" onchange="formatDoc('bold')"> Bold</label>
+        <label><input type="checkbox" onchange="formatDoc('underline')"> Underline</label>
+    
+    </div>
+    <div id="editorBox" contenteditable="true">The quick brown fox jumps over the lazy dog</div>
+</div>
+
+<div class="task-section">
+    <h3>Task 6: Color Animation</h3>
+    <div id="animBox"></div>
+</div>
+
+<script>
+    function startHover() {
+        const box = document.getElementById('hoverBox');
+        box.style.backgroundColor = 'yellow';
+        box.style.fontWeight = 'bold';
+    }
+    function endHover() {
+        const box = document.getElementById('hoverBox');
+        box.style.backgroundColor = 'white';
+        box.style.fontWeight = 'normal';
+    }
+
+    function showFlag() {
+        const country = document.getElementById('countrySelect').value;
+        const display = document.getElementById('flagDisplay');
+        if(country === 'norway') display.innerText = "🇳🇴";
+        else if(country === 'jordan') display.innerText = "🇯🇴";
+        else if(country === 'usa') display.innerText = "🇺🇸";
+        else display.innerText = "";
+    }
+
+    function checkPass() {
+        const p1 = document.getElementById('p1');
+        const p2 = document.getElementById('p2');
+        const p1Err = document.getElementById('p1Error');
+        const p2Err = document.getElementById('p2Error');
+        if(p1.value.length < 6 && p1.value.length > 0) {
+            p1Err.style.display = 'inline';
+        } else {
+            p1Err.style.display = 'none';
+        }
+
+        if(p2.value !== p1.value && p2.value.length > 0) {
+            p2Err.style.display = 'inline';
+        } else {
+            p2Err.style.display = 'none';
+        }
+    }
+
+    function toggleText(e) {
+        e.preventDefault();
+        const text = document.getElementById('loremText');
+        const link = e.target;
+        if (text.style.display === 'none') {
+            text.style.display = 'block';
+            link.innerText = 'Hide';
+        } else {
+            text.style.display = 'none';
+            link.innerText = 'Show';
+        }
+    }
+
+    function formatDoc(cmd, value = null) {
+        if(value) {
+            document.execCommand(cmd, false, value);
+        } else {
+            document.execCommand(cmd);
+        }
+    }
+
+    setInterval(function() {
+        const box = document.getElementById('animBox');
+        const colors = ['blue', 'green', 'red', 'orange', 'purple'];
+        const randomColor = colors[Math.floor(Math.random() * colors.length)];
+        box.style.backgroundColor = randomColor;
+    }, 1000);
+</script>
+
+</body>
+</html>

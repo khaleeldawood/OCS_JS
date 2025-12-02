@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration Form (Regex Task)</title>
+    <style>
+        body { font-family: sans-serif;
+        padding: 20px; }
+        .form-group { margin-bottom: 15px;
+        }
+        label { display: block; margin-bottom: 5px; font-weight: bold;
+        }
+        input { padding: 8px; width: 300px; display: block;
+        }
+        .error { color: red; font-size: 0.9em; display: none; margin-top: 5px;
+        }
+        button { padding: 10px 20px; cursor: pointer; background-color: #007bff; color: white;
+        border: none; }
+    </style>
+</head>
+<body>
+
+<h2>Registration Form</h2>
+
+<form id="regForm" onsubmit="return validateForm(event)">
+    <div class="form-group">
+        <label>First Name:</label>
+        <input type="text" id="fname">
+        <span id="fnameError" class="error">Name must contain only letters.</span>
+    </div>
+
+    <div class="form-group">
+        <label>Last Name:</label>
+        <input type="text" id="lname">
+        <span id="lnameError" class="error">Name must contain only letters.</span>
+    </div>
+
+    <div class="form-group">
+ 
+        <label>Birth Date:</label>
+        <input type="date" id="bdate">
+        <span id="dateError" class="error">Please enter a valid birth date.</span>
+    </div>
+
+    <div class="form-group">
+        <label>Email:</label>
+        <input type="text" id="email">
+        <span id="emailError" class="error">Invalid email format.</span>
+    </div>
+
+    <div class="form-group">
+        <label>Confirm Email:</label>
+        <input type="text" 
+        id="emailConfirm">
+        <span id="emailMatchError" class="error">Emails do not match.</span>
+    </div>
+
+    <div class="form-group">
+        <label>Password:</label>
+        <input type="password" id="password">
+        <ul id="passError" class="error" style="list-style-type: none;
+        padding: 0;">
+            <li id="err-start">Must start with a capital letter.</li>
+            <li id="err-num">Must have at least two numbers.</li>
+            <li id="err-sym">Must have at least one special character.</li>
+            <li id="err-len">Length must be between 8 and 32.</li>
+        </ul>
+    </div>
+
+    <div class="form-group">
+        
+        <label>Confirm Password:</label>
+        <input type="password" id="passConfirm">
+        <span id="passMatchError" class="error">Passwords do not match.</span>
+    </div>
+
+    <div class="form-group">
+        <label>Mobile Number:</label>
+        <input type="text" id="mobile">
+        <span id="mobileError" class="error">Mobile number must be exactly 10 digits.</span>
+    </div>
+
+    <button type="submit">Register</button>
+</form>
+
+<script>
+function validateForm(e) {
+    e.preventDefault(); 
+    
+    document.querySelectorAll('.error').forEach(el => el.style.display = 'none');
+    
+    let isValid = true;
+    const nameRegex = /^[A-Za-z]+$/;
+    const fname = document.getElementById('fname').value;
+    const lname = document.getElementById('lname').value;
+    
+    if (!nameRegex.test(fname)) {
+        document.getElementById('fnameError').style.display = 'block';
+        isValid = false;
+    }
+    if (!nameRegex.test(lname)) {
+        document.getElementById('lnameError').style.display = 'block';
+        isValid = false;
+    }
+
+    const bdate = document.getElementById('bdate').value;
+    if (!bdate) {
+        document.getElementById('dateError').style.display = 'block';
+        isValid = false;
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const email = document.getElementById('email').value;
+    
+    if (!emailRegex.test(email)) {
+        document.getElementById('emailError').style.display = 'block';
+        isValid = false;
+    }
+
+    const emailConfirm = document.getElementById('emailConfirm').value;
+    if (email !== emailConfirm) {
+        document.getElementById('emailMatchError').style.display = 'block';
+        isValid = false;
+    }
+
+    const pass = document.getElementById('password').value;
+    const passConfirm = document.getElementById('passConfirm').value;
+    let passValid = true;
+
+    if (!/^[A-Z]/.test(pass)) {
+        document.getElementById('passError').style.display = 'block';
+        document.getElementById('err-start').style.color = 'red';
+        passValid = false;
+    } else {
+        document.getElementById('err-start').style.color = 'green';
+    }
+
+    if (!/(.*\d.*){2,}/.test(pass)) { 
+        document.getElementById('passError').style.display = 'block';
+        document.getElementById('err-num').style.color = 'red';
+        passValid = false;
+    } else {
+        document.getElementById('err-num').style.color = 'green';
+    }
+
+    if (!/[^A-Za-z0-9]/.test(pass)) {
+        document.getElementById('passError').style.display = 'block';
+        document.getElementById('err-sym').style.color = 'red';
+        passValid = false;
+    } else {
+        document.getElementById('err-sym').style.color = 'green';
+    }
+
+    if (pass.length < 8 || pass.length > 32) {
+        document.getElementById('passError').style.display = 'block';
+        document.getElementById('err-len').style.color = 'red';
+        passValid = false;
+    } else {
+        document.getElementById('err-len').style.color = 'green';
+    }
+
+    if (!passValid) isValid = false;
+
+    if (pass !== passConfirm) {
+        document.getElementById('passMatchError').style.display = 'block';
+        isValid = false;
+    }
+
+    const mobileRegex = /^\d{10}$/;
+    const mobile = document.getElementById('mobile').value;
+    if (!mobileRegex.test(mobile)) {
+        document.getElementById('mobileError').style.display = 'block';
+        isValid = false;
+    }
+
+    if (isValid) {
+        alert("Registration Successful!");
+    }
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Storage Tasks 1 & 2</title>
+    <style>
+        body { font-family: sans-serif; padding: 20px; display: flex; gap: 50px; flex-wrap: wrap; }
+        section { border: 1px solid #ccc; padding: 20px; border-radius: 8px; width: 45%; min-width: 300px; }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; font-weight: bold; }
+        input[type="text"], input[type="number"], textarea, select { width: 100%; padding: 8px; box-sizing: border-box; }
+        button { padding: 10px 20px; cursor: pointer; background-color: #007bff; color: white; border: none; border-radius: 5px; }
+        button:hover { background-color: #0056b3; }
+        
+        /* Card Styling */
+        .card {
+            border: 1px solid #ddd;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            padding: 15px;
+            margin-top: 20px;
+            background-color: #f9f9f9;
+            border-left: 5px solid #007bff;
+        }
+    </style>
+</head>
+<body>
+
+    <section>
+        <h2>Task 1: Personal Data (Local Storage)</h2>
+        <form id="personalForm">
+            <div class="form-group">
+                <label>Name:</label>
+                <input type="text" id="pName" required>
+            </div>
+            <div class="form-group">
+                <label>Age:</label>
+                <input type="number" id="pAge" required>
+            </div>
+            <div class="form-group">
+                <label>Gender:</label>
+                <select id="pGender">
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Brief Description:</label>
+                <textarea id="pDesc"></textarea>
+            </div>
+            <div class="form-group">
+                <label>Major & University:</label>
+                <input type="text" id="pUni" required>
+            </div>
+            <div class="form-group">
+                <label>Preferred Languages (Min 3):</label>
+                <label><input type="checkbox" name="lang" value="JavaScript"> JavaScript</label>
+                <label><input type="checkbox" name="lang" value="Python"> Python</label>
+                <label><input type="checkbox" name="lang" value="Java"> Java</label>
+                <label><input type="checkbox" name="lang" value="C++"> C++</label>
+                <label><input type="checkbox" name="lang" value="PHP"> PHP</label>
+            </div>
+            <button type="submit">Save to Local Storage</button>
+        </form>
+        <div id="personalCardArea"></div>
+    </section>
+
+    <section>
+        <h2>Task 2: Project Idea (Session Storage)</h2>
+        <form id="projectForm">
+            <div class="form-group">
+                <label>Subject:</label>
+                <input type="text" id="projSubject" required>
+            </div>
+            <div class="form-group">
+                <label>Description:</label>
+                <textarea id="projDesc" required></textarea>
+            </div>
+            <div class="form-group">
+                <label>User Types:</label>
+                <input type="text" id="projUsers" placeholder="e.g. Admin, Customer">
+            </div>
+            <div class="form-group">
+                <label>Technology Used:</label>
+                <input type="text" id="projTech" placeholder="e.g. HTML, CSS, JS">
+            </div>
+            <button type="submit">Save to Session Storage</button>
+        </form>
+        <div id="projectCardArea"></div>
+    </section>
+
+    <script>
+        // --- Task 1 Logic ---
+        const personalForm = document.getElementById('personalForm');
+        
+        personalForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Get Checkboxes
+            const checkboxes = document.querySelectorAll('input[name="lang"]:checked');
+            let languages = [];
+            checkboxes.forEach((checkbox) => {
+                languages.push(checkbox.value);
+            });
+
+            if(languages.length < 3) {
+                alert("Please select at least 3 languages.");
+                return;
+            }
+
+            const personalData = {
+                name: document.getElementById('pName').value,
+                age: document.getElementById('pAge').value,
+                gender: document.getElementById('pGender').value,
+                desc: document.getElementById('pDesc').value,
+                uni: document.getElementById('pUni').value,
+                languages: languages
+            };
+
+            // Save to Local Storage
+            localStorage.setItem('myPersonalData', JSON.stringify(personalData));
+            renderPersonalCard();
+        });
+
+        function renderPersonalCard() {
+            const data = JSON.parse(localStorage.getItem('myPersonalData'));
+            if(data) {
+                const card = `
+                    <div class="card">
+                        <h3>${data.name} (${data.age})</h3>
+                        <p><strong>Gender:</strong> ${data.gender}</p>
+                        <p><strong>University:</strong> ${data.uni}</p>
+                        <p><strong>About:</strong> ${data.desc}</p>
+                        <p><strong>Languages:</strong> ${data.languages.join(', ')}</p>
+                    </div>
+                `;
+                document.getElementById('personalCardArea').innerHTML = card;
+            }
+        }
+        // Load on startup
+        renderPersonalCard();
+
+
+        // --- Task 2 Logic ---
+        const projectForm = document.getElementById('projectForm');
+
+        projectForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const projectData = {
+                subject: document.getElementById('projSubject').value,
+                desc: document.getElementById('projDesc').value,
+                users: document.getElementById('projUsers').value,
+                tech: document.getElementById('projTech').value
+            };
+
+            // Save to Session Storage
+            sessionStorage.setItem('myProjectData', JSON.stringify(projectData));
+            renderProjectCard();
+        });
+
+        function renderProjectCard() {
+            const data = JSON.parse(sessionStorage.getItem('myProjectData'));
+            if(data) {
+                const card = `
+                    <div class="card" style="border-left-color: #28a745;">
+                        <h3>${data.subject}</h3>
+                        <p><strong>Description:</strong> ${data.desc}</p>
+                        <p><strong>Users:</strong> ${data.users}</p>
+                        <p><strong>Stack:</strong> ${data.tech}</p>
+                    </div>
+                `;
+                document.getElementById('projectCardArea').innerHTML = card;
+            }
+        }
+        // Load on startup
+        renderProjectCard();
+
+    </script>
+</body>
+</html>
